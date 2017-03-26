@@ -1,2 +1,1 @@
-include ':app', ':library'
-project(':library').projectDir = new File('arkitec/library')
+include ':app'
