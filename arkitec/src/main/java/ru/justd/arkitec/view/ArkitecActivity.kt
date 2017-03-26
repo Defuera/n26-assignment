@@ -3,9 +3,9 @@ package ru.justd.arkitec.view
 import android.content.Intent
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatActivity
-import ru.justd.arkitec.presenter.BasePresenter
+import ru.justd.arkitec.presenter.ArkitecPresenter
 
-abstract class BaseActivity<out P : BasePresenter<V>, V> : AppCompatActivity() {
+abstract class ArkitecActivity<out P : ArkitecPresenter<V>, V> : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)

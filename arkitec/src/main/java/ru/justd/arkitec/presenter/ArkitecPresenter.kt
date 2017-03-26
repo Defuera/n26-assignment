@@ -13,7 +13,7 @@ import rx.subscriptions.CompositeSubscription
 /**
  * Created by defuera on 01/02/2017.
  */
-abstract class BasePresenter<V> {
+abstract class ArkitecPresenter<V> {
 
     private var view: V? = null
     private val subscriptions = CompositeSubscription()
