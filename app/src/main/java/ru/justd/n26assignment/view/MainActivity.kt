@@ -85,7 +85,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.period_day -> presenter.loadData(Period.week)
+                R.id.period_week -> presenter.loadData(Period.week)
                 R.id.period_month -> presenter.loadData(Period.month)
                 R.id.period_year -> presenter.loadData(Period.year)
             }
@@ -107,10 +107,6 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
 
         override fun getItem(index: Int): Any? {
             return data?.get(index)
-        }
-
-        override fun getX(index: Int): Float {
-            return super.getX(index) //todo
         }
 
         override fun getCount() = data?.size ?: 0

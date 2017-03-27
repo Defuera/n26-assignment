@@ -23,7 +23,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/period_day"
+            android:id="@+id/period_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,11 +52,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/start_date"
         android:layout_below="@+id/radio_group"
+        android:background="@drawable/bg_graph"
         android:layout_marginTop="@dimen/padding_16"
         android:layout_toEndOf="@+id/max_rate"
         android:layout_toRightOf="@+id/max_rate"
-        app:spark_lineColor="@color/colorPrimary"
-        tools:background="#2277ff77"/>
+        app:spark_lineColor="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/start_date"
