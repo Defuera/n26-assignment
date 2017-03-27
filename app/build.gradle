@@ -29,6 +29,10 @@ android {
 
     }
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
 }
 
 kapt {
@@ -48,6 +52,11 @@ dependencies {
 
     //Ui stuff
     compile "com.jakewharton:butterknife:$butterknifeVersion"
+    kapt("com.jakewharton:butterknife-compiler:$butterknifeVersion") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    compile 'com.robinhood.spark:spark:1.1.2' //graph
 
     // Dagger
     compile "com.google.dagger:dagger:$daggerVersion"

@@ -1,0 +1,6 @@
+<lint>
+
+    <issue id="ResourceType" severity="Warning"/>
+    <issue id="InvalidPackage" severity="Warning"/>
+
+</lint>

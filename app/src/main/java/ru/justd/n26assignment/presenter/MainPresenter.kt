@@ -17,11 +17,10 @@ class MainPresenter @Inject constructor() : ArkitecPresenter<MainView>() {
     lateinit var marketPriceInteractor : MarketPriceInteractor
 
     override fun onViewAttached() {
-        view().showToast()
 
         subscribe(
                 marketPriceInteractor.loadPrices(ChartsResponse.Period.day),
-                Action1 { response -> Log.i("DensTest", "resp: "+ response.status) },
+                Action1 { response -> view().showData(response.values) },
                 Action1(Throwable::printStackTrace)
         )
 

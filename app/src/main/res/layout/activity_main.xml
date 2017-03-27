@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.justd.n26assignment.MainActivity">
+    android:padding="@dimen/padding_16">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Terrible World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:text="@string/title"/>
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/day"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:text="@string/period_day"/>
+
+    <com.robinhood.spark.SparkView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/day"
+        android:layout_marginTop="@dimen/padding_16"
+        app:spark_lineColor="@color/colorPrimary"/>
+
+</RelativeLayout>

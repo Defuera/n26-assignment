@@ -1,10 +1,14 @@
 package ru.justd.n26assignment.view
 
 import android.os.Bundle
-import android.widget.Toast
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.robinhood.spark.SparkAdapter
+import com.robinhood.spark.SparkView
 import ru.justd.arkitec.view.ArkitecActivity
 import ru.justd.n26assignment.App
 import ru.justd.n26assignment.R
+import ru.justd.n26assignment.model.MarketPrice
 import ru.justd.n26assignment.presenter.MainPresenter
 import javax.inject.Inject
 
@@ -23,6 +27,9 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     @Inject
     lateinit var presenter: MainPresenter
 
+    @BindView(R.id.graph)
+    lateinit var graph: SparkView
+
     override fun presenter() = presenter
     override fun view() = this
 
@@ -31,10 +38,28 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         (applicationContext as App).graph.inject(this)
 
         setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
     }
 
-    override fun showToast() {
-        Toast.makeText(this, "lol", Toast.LENGTH_LONG).show()
+    override fun showData(data: List<MarketPrice>) {
+        graph.adapter = object : SparkAdapter() {
+
+            override fun getY(index: Int): Float {
+                return data[index].value
+            }
+
+            override fun getItem(index: Int): Any {
+                return "may"
+            }
+
+            override fun getX(index: Int): Float {
+                return super.getX(index) //todo
+            }
+
+            override fun getCount() = data.size
+
+        }
+
     }
 
 }

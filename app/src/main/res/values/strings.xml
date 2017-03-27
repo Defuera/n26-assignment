@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">N26Assignment</string>
+    <string name="title">Choose period</string>
+    <string name="period_day">day</string>
 </resources>
