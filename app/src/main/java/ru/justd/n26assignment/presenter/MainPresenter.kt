@@ -23,10 +23,17 @@ class MainPresenter @Inject constructor() : ArkitecPresenter<MainView>() {
     }
 
     fun loadData(period: Period) {
+        view().showLoading(true)
         subscribe(
                 marketPriceInteractor.loadPrices(period),
                 Action1 { response -> view().showData(response.values, period) },
-                Action1(Throwable::printStackTrace)
+                Action1 {
+                    t ->
+                    t.printStackTrace()
+                    view().showError(t.localizedMessage)
+                }
+
+
         )
     }
 

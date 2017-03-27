@@ -8,4 +8,6 @@ import ru.justd.n26assignment.model.MarketPrice
  */
 interface MainView {
     fun showData(data : List<MarketPrice>, period: ChartsResponse.Period)
+    fun showError(localizedMessage: String?)
+    fun showLoading(show: Boolean)
 }

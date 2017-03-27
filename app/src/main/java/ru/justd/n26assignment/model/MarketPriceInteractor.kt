@@ -23,4 +23,5 @@ class MarketPriceInteractor @Inject constructor() {
             else -> throw IllegalArgumentException("unknown period $period")
         }
     }
+
 }

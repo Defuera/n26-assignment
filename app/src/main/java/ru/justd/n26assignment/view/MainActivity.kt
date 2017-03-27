@@ -1,6 +1,7 @@
 package ru.justd.n26assignment.view
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.text.format.DateUtils
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -9,6 +10,7 @@ import butterknife.ButterKnife
 import com.robinhood.spark.SparkAdapter
 import com.robinhood.spark.SparkView
 import ru.justd.arkitec.view.ArkitecActivity
+import ru.justd.lilwidgets.LilLoaderDialog
 import ru.justd.n26assignment.App
 import ru.justd.n26assignment.R
 import ru.justd.n26assignment.model.ChartsResponse.Period
@@ -65,6 +67,8 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     }
 
     override fun showData(data: List<MarketPrice>, period: Period) {
+        showLoading(false)
+
         graphAdapter.data = data
 
         val firstItem = data[0]
@@ -92,6 +96,38 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         }
 
     }
+
+    override fun showLoading(show: Boolean) {
+        if (show) {
+            LilLoaderDialog.Builder(supportFragmentManager)
+                    .setDelay(200)
+                    .create()
+        } else {
+            LilLoaderDialog.dismiss(supportFragmentManager)
+        }
+    }
+
+    override fun showError(localizedMessage: String?) {
+        showLoading(false)
+
+        val snackbar = Snackbar
+                .make(
+                        graph,
+                        localizedMessage ?: resources.getString(R.string.error_unexpected),
+                        Snackbar.LENGTH_INDEFINITE
+                )
+        snackbar
+                .setAction(
+                        R.string.retry,
+                        {
+                            retry()
+                            snackbar.dismiss()
+                        }
+                )
+                .show()
+    }
+
+    private fun retry() {}
 
     class GraphAdapter : SparkAdapter() {
 

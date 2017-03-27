@@ -4,4 +4,8 @@
     <string name="period_day">Week</string>
     <string name="period_month">Month</string>
     <string name="period_year">Year</string>
+    <string name="error_unexpected">Unexpected error, try later</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+
 </resources>
