@@ -1,6 +1,8 @@
 package ru.justd.n26assignment.view
 
 import android.os.Bundle
+import android.text.format.DateUtils
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.robinhood.spark.SparkAdapter
@@ -8,6 +10,7 @@ import com.robinhood.spark.SparkView
 import ru.justd.arkitec.view.ArkitecActivity
 import ru.justd.n26assignment.App
 import ru.justd.n26assignment.R
+import ru.justd.n26assignment.model.ChartsResponse.Period
 import ru.justd.n26assignment.model.MarketPrice
 import ru.justd.n26assignment.presenter.MainPresenter
 import javax.inject.Inject
@@ -30,6 +33,18 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     @BindView(R.id.graph)
     lateinit var graph: SparkView
 
+    @BindView(R.id.min_rate)
+    lateinit var minRate: TextView
+
+    @BindView(R.id.max_rate)
+    lateinit var maxRate: TextView
+
+    @BindView(R.id.start_date)
+    lateinit var startDate: TextView
+
+    @BindView(R.id.end_date)
+    lateinit var endDate: TextView
+
     override fun presenter() = presenter
     override fun view() = this
 
@@ -45,13 +60,29 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         graph.adapter = graphAdapter
     }
 
-    override fun showData(data: List<MarketPrice>) {
-            graphAdapter.data = data
+    override fun showData(data: List<MarketPrice>, period : Period) {
+        graphAdapter.data = data
+
+        val firstItem = data[0]
+        val lastItem = data[data.lastIndex]
+
+        minRate.text = firstItem.value.toString()
+        maxRate.text = lastItem.value.toString()
+
+        val flags : Int = when (period){
+            Period.day ->  DateUtils.FORMAT_SHOW_TIME
+            Period.month ->  DateUtils.FORMAT_SHOW_WEEKDAY
+            Period.year ->  DateUtils.FORMAT_SHOW_DATE
+            else -> throw IllegalArgumentException("unknown period $period")
+        }
+
+        startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan, flags)
+        endDate.text = DateUtils.formatDateTime(this, lastItem.timeSpan, flags)
     }
 
     class GraphAdapter : SparkAdapter() {
 
-        var data : List<MarketPrice>? = null
+        var data: List<MarketPrice>? = null
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -61,8 +92,8 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
             return data?.get(index)?.value ?: 0f
         }
 
-        override fun getItem(index: Int): Any {
-            return "magy"
+        override fun getItem(index: Int): Any? {
+            return data?.get(index)
         }
 
         override fun getX(index: Int): Float {
