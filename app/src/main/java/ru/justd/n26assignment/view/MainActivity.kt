@@ -1,13 +1,13 @@
 package ru.justd.n26assignment.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.text.format.DateUtils
 import android.widget.RadioGroup
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.robinhood.spark.SparkAdapter
 import com.robinhood.spark.SparkView
 import ru.justd.arkitec.view.ArkitecActivity
 import ru.justd.lilwidgets.LilLoaderDialog
@@ -69,15 +69,12 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     override fun attachPresenter() {
         super.attachPresenter()
 
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            loadData(checkedId)
-        }
-
-        loadData(radioGroup.checkedRadioButtonId)
+        radioGroup.setOnCheckedChangeListener { _, _ -> loadData() }
+        loadData()
     }
 
-    private fun loadData(checkedId: Int) {
-        when (checkedId) {
+    private fun loadData() {
+        when (radioGroup.checkedRadioButtonId) {
             R.id.period_week -> presenter.loadData(Period.week)
             R.id.period_month -> presenter.loadData(Period.month)
             R.id.period_year -> presenter.loadData(Period.year)
@@ -104,7 +101,6 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
 
         startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan * 1000, flags)
         endDate.text = DateUtils.formatDateTime(this, lastItem.timeSpan * 1000, flags)
-
     }
 
     override fun showLoading(show: Boolean) {
@@ -114,7 +110,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
                     .setCancelable(true)
                     .create()
         } else {
-            LilLoaderDialog.dismiss(supportFragmentManager)
+            Handler().post { LilLoaderDialog.dismiss(supportFragmentManager) }
         }
     }
 
@@ -131,32 +127,11 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
                 .setAction(
                         R.string.retry,
                         {
-                            retry()
+                            loadData()
                             snackbar.dismiss()
                         }
                 )
                 .show()
     }
 
-    private fun retry() {}
-
-    class GraphAdapter : SparkAdapter() {
-
-        var data: List<MarketPrice>? = null
-            set(value) {
-                field = value
-                notifyDataSetChanged()
-            }
-
-        override fun getY(index: Int): Float {
-            return data?.get(index)?.value ?: 0f
-        }
-
-        override fun getItem(index: Int): Any? {
-            return data?.get(index)
-        }
-
-        override fun getCount() = data?.size ?: 0
-
-    }
 }
