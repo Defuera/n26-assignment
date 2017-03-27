@@ -33,33 +33,43 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     override fun presenter() = presenter
     override fun view() = this
 
+    val graphAdapter = GraphAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (applicationContext as App).graph.inject(this)
 
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
+
+        graph.adapter = graphAdapter
     }
 
     override fun showData(data: List<MarketPrice>) {
-        graph.adapter = object : SparkAdapter() {
-
-            override fun getY(index: Int): Float {
-                return data[index].value
-            }
-
-            override fun getItem(index: Int): Any {
-                return "may"
-            }
-
-            override fun getX(index: Int): Float {
-                return super.getX(index) //todo
-            }
-
-            override fun getCount() = data.size
-
-        }
-
+            graphAdapter.data = data
     }
 
+    class GraphAdapter : SparkAdapter() {
+
+        var data : List<MarketPrice>? = null
+            set(value) {
+                field = value
+                notifyDataSetChanged()
+            }
+
+        override fun getY(index: Int): Float {
+            return data?.get(index)?.value ?: 0f
+        }
+
+        override fun getItem(index: Int): Any {
+            return "magy"
+        }
+
+        override fun getX(index: Int): Float {
+            return super.getX(index) //todo
+        }
+
+        override fun getCount() = data?.size ?: 0
+
+    }
 }
