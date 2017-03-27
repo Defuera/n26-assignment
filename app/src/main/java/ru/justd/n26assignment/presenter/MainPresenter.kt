@@ -17,12 +17,17 @@ class MainPresenter @Inject constructor() : ArkitecPresenter<MainView>() {
 
     override fun onViewAttached() {
 
+        val period = Period.year
+        loadData(period)
+
+    }
+
+    fun loadData(period: Period) {
         subscribe(
-                marketPriceInteractor.loadPrices(Period.day),
-                Action1 { response -> view().showData(response.values, Period.day) },
+                marketPriceInteractor.loadPrices(period),
+                Action1 { response -> view().showData(response.values, period) },
                 Action1(Throwable::printStackTrace)
         )
-
     }
 
 }

@@ -14,7 +14,7 @@ data class ChartsResponse<T>(
 
 ) {
     enum class Period {
-        day, month, year
+        week, month, year
     }
 
 }

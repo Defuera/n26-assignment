@@ -2,6 +2,7 @@ package ru.justd.n26assignment.view
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.widget.RadioGroup
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -29,6 +30,9 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
 
     @Inject
     lateinit var presenter: MainPresenter
+
+    @BindView(R.id.radio_group)
+    lateinit var radioGroup: RadioGroup
 
     @BindView(R.id.graph)
     lateinit var graph: SparkView
@@ -60,7 +64,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         graph.adapter = graphAdapter
     }
 
-    override fun showData(data: List<MarketPrice>, period : Period) {
+    override fun showData(data: List<MarketPrice>, period: Period) {
         graphAdapter.data = data
 
         val firstItem = data[0]
@@ -69,15 +73,24 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         minRate.text = firstItem.value.toString()
         maxRate.text = lastItem.value.toString()
 
-        val flags : Int = when (period){
-            Period.day ->  DateUtils.FORMAT_SHOW_TIME
-            Period.month ->  DateUtils.FORMAT_SHOW_WEEKDAY
-            Period.year ->  DateUtils.FORMAT_SHOW_DATE
+        val flags: Int = when (period) {
+            Period.week -> DateUtils.FORMAT_SHOW_TIME and DateUtils.FORMAT_SHOW_DATE
+            Period.month -> DateUtils.FORMAT_SHOW_WEEKDAY and DateUtils.FORMAT_SHOW_DATE
+            Period.year -> DateUtils.FORMAT_SHOW_DATE and DateUtils.FORMAT_SHOW_YEAR
             else -> throw IllegalArgumentException("unknown period $period")
         }
 
-        startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan, flags)
-        endDate.text = DateUtils.formatDateTime(this, lastItem.timeSpan, flags)
+        startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan * 1000, flags)
+        endDate.text = DateUtils.formatDateTime(this, lastItem.timeSpan * 1000, flags)
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.period_day -> presenter.loadData(Period.week)
+                R.id.period_month -> presenter.loadData(Period.month)
+                R.id.period_year -> presenter.loadData(Period.year)
+            }
+        }
+
     }
 
     class GraphAdapter : SparkAdapter() {

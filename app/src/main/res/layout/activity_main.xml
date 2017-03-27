@@ -13,19 +13,45 @@
         android:layout_height="wrap_content"
         android:text="@string/title"/>
 
-    <Button
-        android:id="@+id/day"
-        android:layout_width="72dp"
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:text="@string/period_day"/>
+        android:checkedButton="@+id/period_year"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/period_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/period_day"/>
+
+        <RadioButton
+            android:id="@+id/period_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/period_month"/>
+
+        <RadioButton
+            android:id="@+id/period_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/period_year"/>
+
+    </RadioGroup>
+
 
     <com.robinhood.spark.SparkView
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/start_date"
-        android:layout_below="@+id/day"
+        android:layout_below="@+id/radio_group"
         android:layout_marginTop="@dimen/padding_16"
         android:layout_toEndOf="@+id/max_rate"
         android:layout_toRightOf="@+id/max_rate"

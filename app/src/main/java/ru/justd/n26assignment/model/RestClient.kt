@@ -11,7 +11,8 @@ interface RestClient {
 
     @GET("/charts/market-price?format=json")
     fun getMarketPrices(
-            @Query("period") period: ChartsResponse.Period
+            @Query("period") period: String,
+            @Query("start") startTimestamp : Long
     ): Single<ChartsResponse<MarketPrice>>
 
 }
