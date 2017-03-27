@@ -8,13 +8,8 @@ data class ChartsResponse<T>(
         val status: String,
         val name: String,
         val unit: String,
-        val period: Period,
+        val period: String,
         val description: String,
         val values: List<T>
 
-) {
-    enum class Period {
-        week, month, year
-    }
-
-}
+)

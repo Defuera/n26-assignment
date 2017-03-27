@@ -11,7 +11,7 @@ class MarketPriceRepository constructor(
         private val local: MarketPriceDataSource
 ) {
 
-    fun loadPrices(period: ChartsResponse.Period): Single<ChartsResponse<MarketPrice>> {
+    fun loadPrices(period: Period): Single<ChartsResponse<MarketPrice>> {
         return local
                 .loadPrices(period)
                 .onErrorResumeNext { throwable ->

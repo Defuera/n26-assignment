@@ -1,7 +1,7 @@
 package ru.justd.n26assignment.presenter
 
 import ru.justd.arkitec.presenter.ArkitecPresenter
-import ru.justd.n26assignment.model.ChartsResponse.Period
+import ru.justd.n26assignment.model.Period
 import ru.justd.n26assignment.model.MarketPriceRepository
 import ru.justd.n26assignment.view.MainView
 import rx.functions.Action1

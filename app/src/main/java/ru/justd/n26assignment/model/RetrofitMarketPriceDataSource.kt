@@ -9,18 +9,18 @@ import java.lang.UnsupportedOperationException
  */
 class RetrofitMarketPriceDataSource constructor(private val api: RestClient) : MarketPriceDataSource {
 
-    override fun loadPrices(period: ChartsResponse.Period): Single<ChartsResponse<MarketPrice>> {
+    override fun loadPrices(period: Period): Single<ChartsResponse<MarketPrice>> {
 
         return when (period) {
-            ChartsResponse.Period.week -> api.getMarketPrices("day", (System.currentTimeMillis() - DateUtils.WEEK_IN_MILLIS) / 1000)
-            ChartsResponse.Period.month -> api.getMarketPrices("day", (System.currentTimeMillis() - DateUtils.WEEK_IN_MILLIS * 4) / 1000)
-            ChartsResponse.Period.year -> api.getMarketPrices("month", (System.currentTimeMillis() - DateUtils.YEAR_IN_MILLIS) / 1000)
+            Period.week -> api.getMarketPrices("day", (System.currentTimeMillis() - DateUtils.WEEK_IN_MILLIS) / 1000)
+            Period.month -> api.getMarketPrices("day", (System.currentTimeMillis() - DateUtils.WEEK_IN_MILLIS * 4) / 1000)
+            Period.year -> api.getMarketPrices("month", (System.currentTimeMillis() - DateUtils.YEAR_IN_MILLIS) / 1000)
             else -> throw IllegalArgumentException("unknown period $period")
         }
 
     }
 
-    override fun storePrices(period: ChartsResponse.Period, data: ChartsResponse<MarketPrice>) {
+    override fun storePrices(period: Period, data: ChartsResponse<MarketPrice>) {
         throw UnsupportedOperationException()
     }
 
