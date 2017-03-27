@@ -1,5 +1,6 @@
 package ru.justd.n26assignment.presenter
 
+import android.util.Log
 import ru.justd.arkitec.presenter.ArkitecPresenter
 import ru.justd.n26assignment.model.ChartsResponse.Period
 import ru.justd.n26assignment.model.MarketPriceRepository
@@ -15,9 +16,7 @@ class MainPresenter @Inject constructor() : ArkitecPresenter<MainView>() {
     @Inject
     lateinit var marketPriceRepository: MarketPriceRepository
 
-    override fun onViewAttached() {
-        loadData(Period.year)
-    }
+    override fun onViewAttached() {}
 
     fun loadData(period: Period) {
         view().showLoading(true)

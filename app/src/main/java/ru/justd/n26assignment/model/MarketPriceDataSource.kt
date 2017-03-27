@@ -8,5 +8,6 @@ import rx.Single
 interface MarketPriceDataSource {
 
     fun loadPrices(period: ChartsResponse.Period): Single<ChartsResponse<MarketPrice>>
+    fun storePrices(period: ChartsResponse.Period, data: ChartsResponse<MarketPrice>)
 
 }

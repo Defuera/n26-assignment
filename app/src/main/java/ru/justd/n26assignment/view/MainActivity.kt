@@ -64,13 +64,23 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         ButterKnife.bind(this)
 
         graph.adapter = graphAdapter
+    }
+
+    override fun attachPresenter() {
+        super.attachPresenter()
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.period_week -> presenter.loadData(Period.week)
-                R.id.period_month -> presenter.loadData(Period.month)
-                R.id.period_year -> presenter.loadData(Period.year)
-            }
+            loadData(checkedId)
+        }
+
+        loadData(radioGroup.checkedRadioButtonId)
+    }
+
+    private fun loadData(checkedId: Int) {
+        when (checkedId) {
+            R.id.period_week -> presenter.loadData(Period.week)
+            R.id.period_month -> presenter.loadData(Period.month)
+            R.id.period_year -> presenter.loadData(Period.year)
         }
     }
 
@@ -89,7 +99,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
             Period.week -> DateUtils.FORMAT_SHOW_TIME and DateUtils.FORMAT_SHOW_DATE
             Period.month -> DateUtils.FORMAT_SHOW_WEEKDAY and DateUtils.FORMAT_SHOW_DATE
             Period.year -> DateUtils.FORMAT_SHOW_DATE and DateUtils.FORMAT_SHOW_YEAR
-            else -> throw IllegalArgumentException("unknown period $period")
+            else -> throw IllegalArgumentException()
         }
 
         startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan * 1000, flags)

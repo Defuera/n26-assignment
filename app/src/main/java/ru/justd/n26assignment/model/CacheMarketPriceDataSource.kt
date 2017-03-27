@@ -7,8 +7,20 @@ import rx.Single
  */
 class CacheMarketPriceDataSource : MarketPriceDataSource {
 
+    private val cache = HashMap<ChartsResponse.Period, ChartsResponse<MarketPrice>>()
+
     override fun loadPrices(period: ChartsResponse.Period): Single<ChartsResponse<MarketPrice>> {
-        return Single.error(IllegalArgumentException("oi")) //todo implement
+        if (!cache.containsKey(period)) {
+            return Single.error(EmptyCacheException())
+        } else {
+            return Single.just(
+                    cache[period]
+            )
+        }
+    }
+
+    override fun storePrices(period: ChartsResponse.Period, data: ChartsResponse<MarketPrice>) {
+        cache.put(period, data)
     }
 
 }
