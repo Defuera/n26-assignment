@@ -64,6 +64,14 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         ButterKnife.bind(this)
 
         graph.adapter = graphAdapter
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.period_week -> presenter.loadData(Period.week)
+                R.id.period_month -> presenter.loadData(Period.month)
+                R.id.period_year -> presenter.loadData(Period.year)
+            }
+        }
     }
 
     override fun showData(data: List<MarketPrice>, period: Period) {
@@ -87,20 +95,13 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
         startDate.text = DateUtils.formatDateTime(this, firstItem.timeSpan * 1000, flags)
         endDate.text = DateUtils.formatDateTime(this, lastItem.timeSpan * 1000, flags)
 
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.period_week -> presenter.loadData(Period.week)
-                R.id.period_month -> presenter.loadData(Period.month)
-                R.id.period_year -> presenter.loadData(Period.year)
-            }
-        }
-
     }
 
     override fun showLoading(show: Boolean) {
         if (show) {
             LilLoaderDialog.Builder(supportFragmentManager)
-                    .setDelay(200)
+                    .setDelay(300)
+                    .setCancelable(true)
                     .create()
         } else {
             LilLoaderDialog.dismiss(supportFragmentManager)

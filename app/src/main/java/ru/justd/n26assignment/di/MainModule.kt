@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.justd.n26assignment.BuildConfig
-import ru.justd.n26assignment.model.RestClient
+import ru.justd.n26assignment.model.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -52,5 +52,24 @@ class MainModule {
                 .build()
                 .create(RestClient::class.java)
     }
+
+    @Provides
+    @Singleton
+    internal fun provideRetrofitMarketPriceDataSource(restClient: RestClient): RetrofitMarketPriceDataSource {
+        return RetrofitMarketPriceDataSource(restClient)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideCacheMarketPriceDataSource(): CacheMarketPriceDataSource {
+        return CacheMarketPriceDataSource()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideMarketPriceRepository(remote : RetrofitMarketPriceDataSource, local : CacheMarketPriceDataSource): MarketPriceRepository {
+        return MarketPriceRepository(remote, local)
+    }
+
 
 }
