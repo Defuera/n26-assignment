@@ -1,6 +1,5 @@
 package ru.justd.n26assignment.presenter
 
-import android.util.Log
 import ru.justd.arkitec.presenter.ArkitecPresenter
 import ru.justd.n26assignment.model.ChartsResponse.Period
 import ru.justd.n26assignment.model.MarketPriceRepository

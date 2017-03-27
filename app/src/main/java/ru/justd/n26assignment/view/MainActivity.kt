@@ -106,7 +106,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
     override fun showLoading(show: Boolean) {
         if (show) {
             LilLoaderDialog.Builder(supportFragmentManager)
-                    .setDelay(300)
+                    .setDelay(300) //so magic much number
                     .setCancelable(true)
                     .create()
         } else {
