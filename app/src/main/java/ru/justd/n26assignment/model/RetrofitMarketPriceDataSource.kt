@@ -7,7 +7,7 @@ import java.lang.UnsupportedOperationException
 /**
  * Created by defuera on 27/03/2017.
  */
-class RetrofitMarketPriceDataSource constructor(private val api: RestClient) : MarketPriceDataSource {
+open class RetrofitMarketPriceDataSource constructor(private val api: RestClient) : MarketPriceDataSource {
 
     override fun loadPrices(period: Period): Single<ChartsResponse<MarketPrice>> {
 
