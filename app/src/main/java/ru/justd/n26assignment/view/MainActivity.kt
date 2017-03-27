@@ -8,6 +8,16 @@ import ru.justd.n26assignment.R
 import ru.justd.n26assignment.presenter.MainPresenter
 import javax.inject.Inject
 
+/**
+ * Create an Android application that will fetch information about the current Bitcoin market price
+ * and display the data in a graph of your choosing.
+ * The application must:
+ * 1. Make a network call to a remote api resource to fetch the current exchange rate data, it is not necessary to demonstrate authentication or oauth processes,
+ * 2. Effectively make use of threading and asynchronous behaviour,
+ * 3. Show understanding of the Android SDK and application / activity lifecycles,
+ * 4. Be performant and make appropriate use of background tasks,
+ * 5. Show market price data over time using an appropriate graph.
+ */
 class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
 
     @Inject
