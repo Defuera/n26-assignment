@@ -13,8 +13,8 @@ import ru.justd.arkitec.view.ArkitecActivity
 import ru.justd.lilwidgets.LilLoaderDialog
 import ru.justd.n26assignment.App
 import ru.justd.n26assignment.R
-import ru.justd.n26assignment.model.Period
 import ru.justd.n26assignment.model.MarketPrice
+import ru.justd.n26assignment.model.Period
 import ru.justd.n26assignment.presenter.MainPresenter
 import javax.inject.Inject
 
@@ -123,6 +123,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
                         localizedMessage ?: resources.getString(R.string.error_unexpected),
                         Snackbar.LENGTH_INDEFINITE
                 )
+
         snackbar
                 .setAction(
                         R.string.retry,
@@ -130,8 +131,7 @@ class MainActivity : ArkitecActivity<MainPresenter, MainView>(), MainView {
                             loadData()
                             snackbar.dismiss()
                         }
-                )
-                .show()
+                ).show()
     }
 
 }
