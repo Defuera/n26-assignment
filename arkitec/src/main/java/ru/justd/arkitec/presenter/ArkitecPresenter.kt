@@ -15,7 +15,7 @@ import rx.subscriptions.CompositeSubscription
  */
 abstract class ArkitecPresenter<V> {
 
-    private var view: V? = null
+    private var  view: V? = null
     private val subscriptions = CompositeSubscription()
 
     fun attachView(view: V) {
