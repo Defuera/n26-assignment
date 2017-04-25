@@ -15,18 +15,18 @@ class MarketPriceRepositoryTest {
     lateinit var remote: RetrofitMarketPriceDataSource
 
     val TEST_CASE_VALUE_1 = 0
-    val TEST_CASE_VALUE_2 = 0
+    val TEST_CASE_VALUE_2 = 1
 
     @Before
     fun setup() {
         remote = mock(RetrofitMarketPriceDataSource::class.java)
-        `when`(remote.loadPrices(Period.week)).then { createTestResponse(TEST_CASE_VALUE_1) }
-        `when`(remote.loadPrices(Period.month)).then { createTestResponse(TEST_CASE_VALUE_2) }
+        instance = MarketPriceRepository(remote, CacheMarketPriceDataSource())
 
-        instance = MarketPriceRepository(
-                remote,
-                CacheMarketPriceDataSource()
-        )
+        //mock values for week period
+        `when`(remote.loadPrices(Period.week)).then { createTestResponse(TEST_CASE_VALUE_1) }
+
+        //mock values for month period
+        `when`(remote.loadPrices(Period.month)).then { createTestResponse(TEST_CASE_VALUE_2) }
     }
 
     private fun createTestResponse(value: Int) =
@@ -45,15 +45,15 @@ class MarketPriceRepositoryTest {
      */
     @Test
     fun loadPrices() {
-        //1) data should be loaded from network and cached
+        //1) Data for week period should be loaded from network and cached
         val remoteWeekPrices = instance.loadPrices(Period.week).toBlocking().value()
         Assert.assertEquals(TEST_CASE_VALUE_1, remoteWeekPrices.values[0].timeSpan.toInt())
 
-        //2) data should be loaded from cache
+        //2) Since data for week period has been loaded earlier it should be loaded from cache now
         val cachedWeekPrices = instance.loadPrices(Period.week).toBlocking().value()
         Assert.assertEquals(TEST_CASE_VALUE_1, cachedWeekPrices.values[0].timeSpan.toInt())
 
-        //3) data should be loaded from cache
+        //3) Data for month period should be loaded from network
         val remoteMonthPrices = instance.loadPrices(Period.month).toBlocking().value()
         Assert.assertEquals(TEST_CASE_VALUE_2, remoteMonthPrices.values[0].timeSpan.toInt())
 
